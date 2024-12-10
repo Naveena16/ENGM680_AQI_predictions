@@ -25,19 +25,21 @@ This project focuses on predicting Air Quality Index (AQI) based on pollutant le
 ## Project Structure
 
 ```
-├── airquality_dataset       # Dataset for different stations
-├── README.md                # Overview and instructions
-├── src/                     # Core project code
+├── airquality_dataset          # Dataset for different stations
+├── README.md                   # Overview and instructions
+├── src/                        # Core project code
 │   ├── __init__.py
-│   ├── data_processing.py   # Data cleaning and preprocessing
-│   ├── eda.py               # Exploratory Data Analysis functions
-│   ├── feature_engineering.py # Feature engineering and selection
-│   ├── model_training.py    # Model training, hyperparameter tuning, and future prediction
-│   ├── model_evaluation.py  # Model evaluation metrics and reporting
-├── requirements.txt         # List of required Python packages
-├── final_pipeline.ipynb     # Final pipeline notebook for running the project
-├── breakpoints.json         # AQI breakpoints for pollutant calculations
-└── modelcard.pdf            # Model card with project insights and summary
+│   ├── data_processing.py      # Data cleaning and preprocessing
+│   ├── eda.py                  # Exploratory Data Analysis functions
+│   ├── feature_engineering.py  # Feature engineering and selection
+│   ├── model_training.py       # Model training, hyperparameter tuning, and future prediction
+│   ├── model_evaluation.py     # Model evaluation metrics and reporting
+├── config/                     # Core project code
+│   ├── breakpoints.json        # AQI breakpoints for pollutant calculations
+│   ├── config.yaml             # General configuration for the projec
+├── requirements.txt            # List of required Python packages
+├── final_pipeline.ipynb        # Final pipeline notebook for running the project
+└── modelcard.pdf               # Model card with project insights and summary
 ```
 
 ## Steps to Run the Project
