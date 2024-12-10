@@ -28,6 +28,7 @@ def eval_final_model(X,y, best_params, test_size=0.2, random_state=42):
     - metrics: Dictionary containing MAE, RMSE, and R² Score
     - final_model: Trained Random Forest model
     """
+    
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state, shuffle=True)
     # Initialize the model with the best parameters
     final_model = RandomForestRegressor(

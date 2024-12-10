@@ -5,7 +5,7 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import numpy as np
 
 
-def train_and_evaluate_linear_regression(df, features, target, test_size=0.2, random_state=42):
+def train_and_evaluate_linear_regression(X, y, test_size, random_state):
     """
     Train and evaluate a Linear Regression model for predicting the target variable.
 
@@ -20,9 +20,6 @@ def train_and_evaluate_linear_regression(df, features, target, test_size=0.2, ra
     - metrics: dictionary containing MAE and RMSE
     - model: trained Linear Regression model
     """
-    # Select features and target variable
-    X = df[features]
-    y = df[target]
 
     # Split the data into training and testing sets
     X_train, X_test, y_train, y_test = train_test_split(
@@ -78,7 +75,7 @@ def train_random_forest(X, y, test_size=0.2, random_state=42):
     
     return {"MAE": mae, "RMSE": rmse}, rf_model
 
-def train_gradient_boosting(X, y, test_size=0.2, random_state=42):
+def train_gradient_boosting(X, y, test_size, random_state):
     """
     Train a Gradient Boosting Regressor and evaluate its performance.
 
@@ -108,7 +105,7 @@ def train_gradient_boosting(X, y, test_size=0.2, random_state=42):
     
     return {"R2 Score": r2, "RMSE": rmse}, gb_model
 
-def perform_grid_search(X, y, param_grid, test_size=0.2, random_state=42):
+def perform_grid_search(X, y, param_grid, test_size, random_state):
     """
     Perform hyperparameter tuning using Grid Search for Random Forest.
 
@@ -136,3 +133,53 @@ def perform_grid_search(X, y, param_grid, test_size=0.2, random_state=42):
     return grid_search.best_params_, grid_search.best_score_, grid_search
 
 
+def train_models_for_horizons(df, features, horizons, test_size, random_state):
+    """
+    Train models for predicting AQI at different horizons.
+
+    Parameters:
+    df (pd.DataFrame): DataFrame containing features and target horizons.
+    features (list): List of feature column names.
+    horizons (list): List of target horizon column names (e.g., ['AQI_1h', 'AQI_6h', 'AQI_24h']).
+    test_size (float): Proportion of the dataset to include in the test split.
+    random_state (int): Random seed for reproducibility.
+
+    Returns:
+    dict: Trained models for each horizon.
+    dict: Evaluation metrics for each horizon.
+    """
+    models = {}
+    metrics = {}
+
+    for horizon in horizons:
+        print(f"\nTraining for Horizon: {horizon}")
+        
+        # Features and target
+        X = df[features]
+        y = df[horizon]
+        
+        # Split the data
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
+        
+        # Train the model (e.g., Random Forest)
+        rf_model = RandomForestRegressor(random_state=random_state)
+        rf_model.fit(X_train, y_train)
+        
+        # Predictions
+        y_pred = rf_model.predict(X_test)
+        
+        # Evaluate performance
+        mae = mean_absolute_error(y_test, y_pred)
+        rmse = mean_squared_error(y_test, y_pred, squared=False)
+        r2 = rf_model.score(X_test, y_test)
+        
+        metrics[horizon] = {
+            "MAE": mae,
+            "RMSE": rmse,
+            "R²": r2
+        }
+        
+        models[horizon] = rf_model
+        print(f"MAE: {mae}, RMSE: {rmse}, R²: {r2}")
+    
+    return models, metrics

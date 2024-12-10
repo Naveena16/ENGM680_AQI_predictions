@@ -1,0 +1,60 @@
+# Paths to key directories and files
+paths:
+  dataset: "airquality_dataset"      # Path to the dataset directory
+  breakpoints: "config/breakpoints.json"  # Path to the AQI breakpoints file
+
+# Model configuration
+model:
+  random_forest:
+    n_estimators: 100                # Number of trees in the forest
+    max_depth: 20                    # Maximum depth of the tree
+    min_samples_split: 2             # Minimum samples required to split an internal node
+  gradient_boosting:
+    learning_rate: 0.1               # Learning rate for boosting
+    n_estimators: 100                # Number of boosting stages
+    max_depth: 3                     # Maximum depth of the individual estimators
+  best_params:                       # Updated after running the final_pipeline 
+    max_depth: 20                    # Maximum depth of the tree
+    min_samples_split: 2,            # Minimum samples required to split an internal node
+    n_estimators: 200                # Number of trees in the forest
+
+# Model Training
+features:
+  selected:                          # Features to be used for model training
+    - PM2.5
+    - PM10
+    - SO2
+    - NO2
+    - CO
+    - O3
+    - TEMP
+    - PRES
+    - DEWP
+    - RAIN
+    - WSPM
+  target: AQI                        # Target variable
+
+# Feature Importance
+features_importance:
+  selected:
+    - TEMP
+    - PRES
+    - DEWP
+    - RAIN
+    - WSPM
+    - CO
+    - NO2
+    - O3
+  target: PM2.5
+
+# Training settings
+training:
+  test_size: 0.2                     # Proportion of data for testing
+  random_state: 42                   # Random seed for reproducibility
+
+# Future prediction horizons
+future_prediction:
+  horizons:
+    - AQI_1h
+    - AQI_1h
+    - AQI_24h

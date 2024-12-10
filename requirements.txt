@@ -5,3 +5,4 @@ seaborn
 statsmodel
 sklearn
 joblib
+PyYAML-6.0.2

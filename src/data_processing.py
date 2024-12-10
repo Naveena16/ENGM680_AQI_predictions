@@ -232,3 +232,31 @@ def generate_alert(aqi):
         return "Level 6: Severely Polluted - Emergency conditions, avoid all outdoor exposure"
     else:
         return "Invalid AQI"
+    
+def shift_AQI(df):
+    """
+    Adds columns to the dataset that shift the AQI values by specified intervals to simulate future AQI values.
+
+    Parameters:
+    df (DataFrame): Input DataFrame containing the AQI column.
+
+    Returns:
+    DataFrame: Modified DataFrame with new AQI columns for future horizons.
+    """
+
+    # Print initial data preview for debugging
+    print("Initial DataFrame Head:")
+    print(df.head(5))
+    
+    # Add shifted AQI columns for different horizons
+    df['AQI_1h'] = df['AQI'].shift(-1)  # 1-hour future AQI
+    df['AQI_6h'] = df['AQI'].shift(-6)  # 6-hour future AQI
+    df['AQI_24h'] = df['AQI'].shift(-24)  # 24-hour future AQI
+
+    # Drop rows with NaN values resulting from the shift
+    df = df.dropna().reset_index(drop=True)
+
+    # Print final data preview for debugging
+    print("Modified DataFrame Head:")
+    print(df.head(5))
+    return df
