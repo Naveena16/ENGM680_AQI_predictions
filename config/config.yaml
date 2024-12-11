@@ -56,5 +56,5 @@ training:
 future_prediction:
   horizons:
     - AQI_1h
-    - AQI_1h
+    - AQI_6h
     - AQI_24h
